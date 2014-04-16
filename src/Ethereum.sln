@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30110.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Ethereum.Common", "Ethereum.Common\Ethereum.Common.fsproj", "{5E658CDD-AFF1-4B38-8FE5-FBBF7D0C6143}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Ethereum.Encoding", "Ethereum.Encoding\Ethereum.Encoding.fsproj", "{A4DDA597-E293-4B74-B34A-52D64D800A95}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Ethereum.Protocol", "Ethereum.Protocol\Ethereum.Protocol.fsproj", "{EBAAD1C6-EC82-4D12-9F28-AF2A08090909}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Ethereum.Encoding.Tests", "..\tests\Ethereum.Encoding.Tests\Ethereum.Encoding.Tests.fsproj", "{AD6EB74D-2B0B-43DF-A672-E7034EA11C5D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{965FA057-ADE2-4AC4-AE11-742BB6F7241F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E658CDD-AFF1-4B38-8FE5-FBBF7D0C6143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E658CDD-AFF1-4B38-8FE5-FBBF7D0C6143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E658CDD-AFF1-4B38-8FE5-FBBF7D0C6143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E658CDD-AFF1-4B38-8FE5-FBBF7D0C6143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4DDA597-E293-4B74-B34A-52D64D800A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4DDA597-E293-4B74-B34A-52D64D800A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4DDA597-E293-4B74-B34A-52D64D800A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4DDA597-E293-4B74-B34A-52D64D800A95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBAAD1C6-EC82-4D12-9F28-AF2A08090909}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBAAD1C6-EC82-4D12-9F28-AF2A08090909}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBAAD1C6-EC82-4D12-9F28-AF2A08090909}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBAAD1C6-EC82-4D12-9F28-AF2A08090909}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD6EB74D-2B0B-43DF-A672-E7034EA11C5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD6EB74D-2B0B-43DF-A672-E7034EA11C5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD6EB74D-2B0B-43DF-A672-E7034EA11C5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD6EB74D-2B0B-43DF-A672-E7034EA11C5D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AD6EB74D-2B0B-43DF-A672-E7034EA11C5D} = {965FA057-ADE2-4AC4-AE11-742BB6F7241F}
+	EndGlobalSection
+EndGlobal
