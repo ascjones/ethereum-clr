@@ -32,6 +32,7 @@ let ``Disconnect round trips successfully`` () =
     |> Wire.decode
     |> should equal (Some disconnect)
 
+[<Fact>]
 let ``Ping round trips successfully`` () =
     let ping = Ping
 
@@ -40,6 +41,7 @@ let ``Ping round trips successfully`` () =
     |> Wire.decode
     |> should equal (Some ping)
 
+[<Fact>]
 let ``Pong round trips successfully`` () =
     let pong = Pong
 
@@ -48,6 +50,7 @@ let ``Pong round trips successfully`` () =
     |> Wire.decode
     |> should equal (Some pong)
 
+[<Fact>]
 let ``GetPeer round trips successfully`` () =
     let getPeers = GetPeers
 
