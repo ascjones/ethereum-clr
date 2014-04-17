@@ -9,6 +9,9 @@ module Array =
     let splitAt split (x: _ []) =
         Array.sub x 0 split, Array.sub x split (x.Length - split)
 
+    let tryGet i (x: _ []) =
+        if x.Length > i then Some (x.[i]) else None
+
 [<AutoOpen>]
 module ArrayOperators =
 
@@ -33,21 +36,15 @@ module BigEndian =
     let rec private pad (x: byte []) =
         if x.Length < 4 then pad (0x00uy &>! x) else x
 
-    let ofBinary (x: byte []) =
+    let ofBytes (x: byte []) =
         pad x
         |> fun x -> if BitConverter.IsLittleEndian then Array.rev x else x
         |> fun x -> BitConverter.ToInt32 (x, 0)
 
-    let toBinary (x: int) =
+    let toBytes (x: int) =
         BitConverter.GetBytes x
         |> fun x -> if BitConverter.IsLittleEndian then Array.rev x else x
         |> trim
-
-[<RequireQualifiedAccess>]
-module List =
-
-    let tryHead list =
-        List.tryFind (fun _ -> true) list
 
 [<RequireQualifiedAccess>]
 module String =

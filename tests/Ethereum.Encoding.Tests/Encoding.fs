@@ -7,52 +7,52 @@ open Xunit
 
 // Data
 
-let [<Literal>] cat = "cat"
-let [<Literal>] dog = "dog"
-let [<Literal>] lorem = "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
+let [<Literal>] private cat = "cat"
+let [<Literal>] private dog = "dog"
+let [<Literal>] private lorem = "Lorem ipsum dolor sit amet, consectetur adipisicing elit"
 
 // Helpers
 
-let bytes (x: string) =
-    Bytes (String.toBytes x)
+let private bytes (x: string) =
+    RLPBytes (String.toBytes x)
 
-let codec (rlp, expected) =
+let private codec (rlp, expected) =
     encode rlp 
     |> fun x -> x, decode x 
     |> should equal (expected, rlp)
 
-// Item Tests
+// Bytes
 
 [<Fact>]
-let ``items of length 0 are encoded as a single prefix byte`` () =
-    codec (Bytes [||], [| 0x80uy |])
+let ``bytes of length 0 are encoded as a single prefix byte`` () =
+    codec (RLPBytes [||], [| 0x80uy |])
 
 [<Fact>]
-let ``items of length 1 of value 0x00 are encoded as themselves`` () =
-    codec (Bytes [| 0x00uy |], [| 0x00uy |])
+let ``bytes of length 1 of value 0x00 are encoded as themselves`` () =
+    codec (RLPBytes [| 0x00uy |], [| 0x00uy |])
 
 [<Fact>]
-let ``items of length 1 in the range 0x00 - 0x7f are encoded as themselves`` () =
-    codec (Bytes [| 0x15uy |], [| 0x15uy |])
+let ``bytes of length 1 in the range 0x00 - 0x7f are encoded as themselves`` () =
+    codec (RLPBytes [| 0x15uy |], [| 0x15uy |])
 
 [<Fact>]
-let ``items of length < 55 are encoded with a single prefix byte`` () =
-    codec (bytes dog, Array.concat [ [| 0x83uy |]; String.toBytes dog ])
+let ``bytes of length < 55 are encoded with a single prefix byte`` () =
+    codec (bytes dog, 0x83uy &>! String.toBytes dog)
     
 [<Fact>]
-let ``items of length > 55 are encoded with a prefix byte and big endian binary length`` () =
-    codec (bytes lorem, Array.concat [ [| 0xb8uy; 0x38uy |]; String.toBytes lorem ])
+let ``bytes of length > 55 are encoded with a prefix byte and big endian binary length`` () =
+    codec (bytes lorem, [| 0xb8uy; 0x38uy |] &&! String.toBytes lorem)
 
-// List Tests
-
-[<Fact>]
-let ``lists of length 0 are encoded as a single prefix byte`` () =
-    codec (Array [||], [| 0xc0uy |])
+// Array
 
 [<Fact>]
-let ``lists of encoded length < 55 are encoded with a single prefix byte`` () =
-    codec (Array [| bytes cat; bytes dog |], Array.concat [ [| 0xc8uy |]; encode (bytes cat); encode (bytes dog) ])
+let ``arrays of length 0 are encoded as a single prefix byte`` () =
+    codec (RLPArray [||], [| 0xc0uy |])
 
 [<Fact>]
-let ``lists of encoded length > 55 are encoded with a prefix byte and big endian binary length`` () =
-    codec (Array [| bytes lorem |], Array.concat [ [| 0xf8uy; 0x3auy |]; encode (bytes lorem) ])
+let ``arrays of encoded length < 55 are encoded with a single prefix byte`` () =
+    codec (RLPArray [| bytes cat; bytes dog |], 0xc8uy &>! encode (bytes cat) &&! encode (bytes dog))
+
+[<Fact>]
+let ``arrays of encoded length > 55 are encoded with a prefix byte and big endian binary length`` () =
+    codec (RLPArray [| bytes lorem |],  [| 0xf8uy; 0x3auy |] &&! encode (bytes lorem))
