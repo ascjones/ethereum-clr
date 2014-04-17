@@ -1,4 +1,4 @@
-﻿module Ethereum.Protocol
+﻿module Ethereum.Protocol.Wire
 
 open System
 open System.Net
