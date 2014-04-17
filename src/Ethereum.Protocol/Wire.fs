@@ -5,6 +5,8 @@ open System.Net
 open System.Numerics
 open Ethereum.Common
 open Ethereum.Encoding
+open FSharpx
+open FSharpx.Option
 
 // Hello
 
@@ -16,33 +18,24 @@ type Hello =
       Node: BigInteger option }
 
     static member encode (x: Hello) =
-        let items =
-            [| RLPInt 0
-               ProtocolVersion.encode x.Protocol
-               RLPInt 0
+        let rlps =
+            [| RLPInt 0x00
+               RLPInt (int x.Protocol)
+               RLPInt 0x00
                RLPString x.Client
                RLPInt (int x.Capabilities)
                RLPInt x.Port |]
 
-        let items =
-            match x.Node with
-            | Some n -> items &<! Bytes (n.ToByteArray ())
-            | _ -> items
+        let rlps = Option.getOrElseWith rlps (fun (n: BigInteger) -> 
+            rlps &<! Bytes (n.ToByteArray ())) x.Node
 
-        Array items
+        Array rlps
 
 and ProtocolVersion =
-    | PoC1
-    | PoC2
-    | PoC3
-    | PoC4
-
-    static member encode (x: ProtocolVersion) =
-        match x with
-        | PoC1 -> RLPInt 0
-        | PoC2 -> RLPInt 1
-        | PoC3 -> RLPInt 7
-        | PoC4 -> RLPInt 9
+    | PoC1 = 0x00
+    | PoC2 = 0x01
+    | PoC3 = 0x07
+    | PoC4 = 0x09
 
 and [<Flags>] Capabilities =
     | PeerDiscovery = 0x01
@@ -55,31 +48,24 @@ type Disconnect =
     { Reason: Reason option }
 
     static member encode (x: Disconnect) =
-        let items = 
-            [| RLPInt 1 |]
+        let rlps = 
+            [| RLPInt 0x01 |]
 
-        let items =
-            match x.Reason with
-            | Some reason -> items &<! Reason.encode reason
-            | _ -> items
+        let rlps = Option.getOrElseWith rlps (fun r -> 
+            rlps &<! RLPInt (int r)) x.Reason
 
-        Array items
+        Array rlps
 
 and Reason =
-    | Requested
-    | TCPError
-    | BadProtocol
-    | UselessPeer
-    | TooManyPeers
-    | AlreadyConnected
-    | WrongGenesisBlock
-    | IncompatibleNetworkProtocol
-    | ClientQuitting
-
-    static member encode (x: Reason) =
-        match x with
-        | Requested -> RLPInt 0
-        | _ -> RLPInt 1 // TODO: Fill in the rest!
+    | Requested = 0x00
+    | TCPError = 0x01
+    | BadProtocol = 0x02
+    | UselessPeer = 0x03
+    | TooManyPeers = 0x04
+    | AlreadyConnected = 0x05
+    | WrongGenesisBlock = 0x06
+    | IncompatibleNetworkProtocol = 0x07
+    | ClientQuitting = 0x08
     
 // Peers
 
@@ -87,7 +73,7 @@ type Peers =
     { Peers: Peer list }
 
     static member encode (x: Peers) =
-        Array (RLPInt 11 &>! (x.Peers |> List.map Peer.encode |> Array.ofList))
+        Array (RLPInt 0x011 &>! (x.Peers |> List.map Peer.encode |> Array.ofList))
 
 and Peer =
     { IP: IPAddress
@@ -95,12 +81,12 @@ and Peer =
       Node: BigInteger }
 
     static member encode (x: Peer) =
-        let items = 
+        let rlps = 
             [| Bytes (x.IP.GetAddressBytes ())
                RLPInt x.Port
                Bytes (x.Node.ToByteArray ()) |]
 
-        Array items
+        Array rlps
 
 // Protocol
 
@@ -116,12 +102,12 @@ type Protocol =
         match x with
         | Hello x -> Hello.encode x
         | Disconnect x -> Disconnect.encode x
-        | Ping -> Array [| RLPInt 2 |]
-        | Pong -> Array [| RLPInt 3 |]
-        | GetPeers -> Array [| RLPInt 10 |]
+        | Ping -> Array [| RLPInt 0x02 |]
+        | Pong -> Array [| RLPInt 0x03 |]
+        | GetPeers -> Array [| RLPInt 0x10 |]
         | Peers x -> Peers.encode x
 
     static member decode (x: RLP) =
         match x with
-        | Array [| RLPInt t;  _ |] when t = 0 -> None // should check to see how optimized this gets...
+        | Array [| RLPInt t;  _ |] when t = 0x00 -> None // should check to see how optimized this gets...
         | _ -> None
