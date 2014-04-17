@@ -32,30 +32,6 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>bin\Release\Ethereum.Protocol.XML</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Protocol.fs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ethereum.Common\Ethereum.Common.fsproj">
-      <Name>Ethereum.Common</Name>
-      <Project>{5e658cdd-aff1-4b38-8fe5-fbbf7d0c6143}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Ethereum.Encoding\Ethereum.Encoding.fsproj">
-      <Name>Ethereum.Encoding</Name>
-      <Project>{a4dda597-e293-4b74-b34a-52d64d800a95}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
@@ -72,6 +48,35 @@
     </Otherwise>
   </Choose>
   <Import Project="$(FSharpTargetsPath)" />
+  <ItemGroup>
+    <Compile Include="Block.fs" />
+    <Compile Include="Wire.fs" />
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FSharpx.Core">
+      <HintPath>..\packages\FSharpx.Core.1.8.41\lib\40\FSharpx.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\Ethereum.Common\Ethereum.Common.fsproj">
+      <Name>Ethereum.Common</Name>
+      <Project>{5e658cdd-aff1-4b38-8fe5-fbbf7d0c6143}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Ethereum.Encoding\Ethereum.Encoding.fsproj">
+      <Name>Ethereum.Encoding</Name>
+      <Project>{a4dda597-e293-4b74-b34a-52d64d800a95}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

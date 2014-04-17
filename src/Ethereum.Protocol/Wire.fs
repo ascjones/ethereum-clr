@@ -17,19 +17,19 @@ type Hello =
 
     static member encode (x: Hello) =
         let items =
-            [ RLPInt 0
-              ProtocolVersion.encode x.Protocol
-              RLPInt 0
-              RLPString x.Client
-              RLPInt (int x.Capabilities)
-              RLPInt x.Port ]
+            [| RLPInt 0
+               ProtocolVersion.encode x.Protocol
+               RLPInt 0
+               RLPString x.Client
+               RLPInt (int x.Capabilities)
+               RLPInt x.Port |]
 
         let items =
             match x.Node with
-            | Some n -> items @ [ Item (Array.toList (n.ToByteArray ())) ]
+            | Some n -> items &<! Bytes (n.ToByteArray ())
             | _ -> items
 
-        List items
+        Array items
 
 and ProtocolVersion =
     | PoC1
@@ -56,14 +56,14 @@ type Disconnect =
 
     static member encode (x: Disconnect) =
         let items = 
-            [ RLPInt 1 ]
+            [| RLPInt 1 |]
 
         let items =
             match x.Reason with
-            | Some reason -> items @ [ Reason.encode reason ]
+            | Some reason -> items &<! Reason.encode reason
             | _ -> items
 
-        List items
+        Array items
 
 and Reason =
     | Requested
@@ -87,7 +87,7 @@ type Peers =
     { Peers: Peer list }
 
     static member encode (x: Peers) =
-        List ([ RLPInt 11 ] @ (x.Peers |> List.map Peer.encode))
+        Array (RLPInt 11 &>! (x.Peers |> List.map Peer.encode |> Array.ofList))
 
 and Peer =
     { IP: IPAddress
@@ -95,10 +95,12 @@ and Peer =
       Node: BigInteger }
 
     static member encode (x: Peer) =
-        List [
-            Item (Array.toList (x.IP.GetAddressBytes ()))
-            RLPInt x.Port
-            Item (Array.toList (x.Node.ToByteArray ())) ]
+        let items = 
+            [| Bytes (x.IP.GetAddressBytes ())
+               RLPInt x.Port
+               Bytes (x.Node.ToByteArray ()) |]
+
+        Array items
 
 // Protocol
 
@@ -114,12 +116,12 @@ type Protocol =
         match x with
         | Hello x -> Hello.encode x
         | Disconnect x -> Disconnect.encode x
-        | Ping -> List [ RLPInt 2 ]
-        | Pong -> List [ RLPInt 3 ]
-        | GetPeers -> List [ RLPInt 10 ]
+        | Ping -> Array [| RLPInt 2 |]
+        | Pong -> Array [| RLPInt 3 |]
+        | GetPeers -> Array [| RLPInt 10 |]
         | Peers x -> Peers.encode x
 
     static member decode (x: RLP) =
         match x with
-        | List (RLPInt t :: _) when t = 0 -> None // should check to see how optimized this gets...
+        | Array [| RLPInt t;  _ |] when t = 0 -> None // should check to see how optimized this gets...
         | _ -> None
