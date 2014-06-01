@@ -17,6 +17,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Ethereum.Protocol.Tests", "
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Ethereum", "Ethereum\Ethereum.fsproj", "{BE40748A-46FD-41CA-84FB-CA5403C98F98}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Ethereum.Tests", "..\tests\Ethereum.Tests\Ethereum.Tests.fsproj", "{1D6361A1-D320-4898-A552-5B2A4B1A7C1E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{BE40748A-46FD-41CA-84FB-CA5403C98F98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE40748A-46FD-41CA-84FB-CA5403C98F98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE40748A-46FD-41CA-84FB-CA5403C98F98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D6361A1-D320-4898-A552-5B2A4B1A7C1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D6361A1-D320-4898-A552-5B2A4B1A7C1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D6361A1-D320-4898-A552-5B2A4B1A7C1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D6361A1-D320-4898-A552-5B2A4B1A7C1E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,5 +60,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{AD6EB74D-2B0B-43DF-A672-E7034EA11C5D} = {965FA057-ADE2-4AC4-AE11-742BB6F7241F}
 		{E2BE7A43-0A8D-4676-B8CC-1CF8DA186797} = {965FA057-ADE2-4AC4-AE11-742BB6F7241F}
+		{1D6361A1-D320-4898-A552-5B2A4B1A7C1E} = {965FA057-ADE2-4AC4-AE11-742BB6F7241F}
 	EndGlobalSection
 EndGlobal
