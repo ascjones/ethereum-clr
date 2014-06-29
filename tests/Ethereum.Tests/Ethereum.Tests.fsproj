@@ -58,7 +58,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TcpServerTests.fs" />
+    <Compile Include="PeerServerTests.fs" />
     <None Include="Script.fsx" />
     <None Include="packages.config" />
     <None Include="app.config" />

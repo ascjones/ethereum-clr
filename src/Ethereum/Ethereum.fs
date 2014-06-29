@@ -44,6 +44,14 @@ type PeerSession(tcpCli : TcpClient) =
             match m with
             | Hello h ->
                 printfn "Received Hello Message"
+                // just return the same Hello message back for now
+                let response = 
+                    Hello h
+                    |> Wire.encode
+                    |> encode
+                do! stream.AsyncWrite magicTokenBytes
+                do! stream.AsyncWrite (response.Length |> BigEndian.to4Bytes)
+                do! stream.AsyncWrite response
             | x -> printfn "Not handling messages of %A" x
         | None -> printfn "Could not decode incoming message %A" msgBytes
 
