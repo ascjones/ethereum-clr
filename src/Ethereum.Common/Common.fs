@@ -41,9 +41,12 @@ module BigEndian =
         |> fun x -> if BitConverter.IsLittleEndian then Array.rev x else x
         |> fun x -> BitConverter.ToInt32 (x, 0)
 
-    let toBytes (x: int) =
+    let to4Bytes (x: int) =
         BitConverter.GetBytes x
         |> fun x -> if BitConverter.IsLittleEndian then Array.rev x else x
+
+    let toBytes (x: int) =
+        to4Bytes x
         |> trim
 
 [<RequireQualifiedAccess>]

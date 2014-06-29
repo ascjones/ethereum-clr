@@ -63,6 +63,28 @@
     <None Include="packages.config" />
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Ethereum.Common\Ethereum.Common.fsproj">
+      <Name>Ethereum.Common</Name>
+      <Project>{5e658cdd-aff1-4b38-8fe5-fbbf7d0c6143}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ethereum.Encoding\Ethereum.Encoding.fsproj">
+      <Name>Ethereum.Encoding</Name>
+      <Project>{a4dda597-e293-4b74-b34a-52d64d800a95}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ethereum.Protocol\Ethereum.Protocol.fsproj">
+      <Name>Ethereum.Protocol</Name>
+      <Project>{ebaad1c6-ec82-4d12-9f28-af2a08090909}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Ethereum\Ethereum.fsproj">
+      <Name>Ethereum</Name>
+      <Project>{be40748a-46fd-41ca-84fb-ca5403c98f98}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
   </PropertyGroup>
