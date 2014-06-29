@@ -23,7 +23,7 @@ type private PeerResponse =
 // https://github.com/ethereum/wiki/wiki/%5BEnglish%5D-Wire-Protocol
 let magicTokenBytes = BigEndian.toBytes(0x22400891)
 
-type Peer(tcpCli : TcpClient) =
+type PeerSession(tcpCli : TcpClient) =
     let stream = tcpCli.GetStream()
 
     let rec peerLoop () = async {
@@ -66,7 +66,7 @@ type TcpServer(ipEndpoint : IPEndPoint) =
                 printfn "Waiting for connections on Port %i" ipEndpoint.Port
                 let! (client : TcpClient) = listener.AcceptTcpClientAsync()
                 printfn "Accepted Peer Connection"
-                let peer = Peer(client)
+                let peer = PeerSession(client)
                 peer.Start(cancel.Token)
                 return! serverLoop (peer::peers)
             with e -> printfn "Error starting TcpServer: %A" e
