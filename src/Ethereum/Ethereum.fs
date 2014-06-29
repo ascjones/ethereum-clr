@@ -54,7 +54,7 @@ type PeerSession(tcpCli : TcpClient) =
         Async.Start(peerLoop (), ct)
     
 
-type TcpServer(ipEndpoint : IPEndPoint) = 
+type PeerServer(ipEndpoint : IPEndPoint) = 
 
     member __.Start () = 
         let cancel = new CancellationTokenSource()

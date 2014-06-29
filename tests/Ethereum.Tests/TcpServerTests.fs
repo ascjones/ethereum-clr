@@ -12,10 +12,10 @@ module TcpServerTests =
     open Ethereum.Common
     open Ethereum
 
-    let startTcpServer serverEndpoint =
-        let tcpServer = new TcpServer(serverEndpoint)
+    let startPeerServer serverEndpoint =
+        let peerServer = new PeerServer(serverEndpoint)
         printfn "Starting TcpServer"
-        tcpServer.Start()
+        peerServer.Start()
         System.Threading.Thread.Sleep(500)
 
     [<Fact>]
@@ -28,7 +28,7 @@ module TcpServerTests =
               Node = None }
 
         let serverEndpoint = new IPEndPoint(IPAddress.Loopback, 30303)
-        startTcpServer serverEndpoint
+        startPeerServer serverEndpoint
 
         use tcpClient = new TcpClient(new IPEndPoint(IPAddress.Loopback, 9999))
         printfn "Connecting to host"
